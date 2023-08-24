@@ -1,18 +1,31 @@
+// Define the API link for GitHub user data
 let API_LINK = "https://api.github.com/users";
+
+// Get reference to HTML elements using their class and ID
 let search_btn = document.querySelector(".search");
 let search_term = document.getElementById("search-term");
 var repoUl = document.getElementById("repo");
 
+// Get reference to an element with class "searching"
 let searching = document.querySelector(".searching");
+
+// Set focus on the search term input field
 search_term.focus();
+
+// Initialize an empty array to store repository data
 var repo = new Array(0);
+
+// Add a click event listener to the search button
 search_btn.addEventListener("click", (e) => {
   e.preventDefault();
   if (search_term.value) {
+     // Show "Searching..." message
     searching.innerHTML = "Searching...";
     setTimeout(() => {
       getUserDetaile(`${API_LINK}/${search_term.value}`);
     }, 2000);
+
+    // Fetch user details and repositories after a delay
     setTimeout(() => {
       getRepoDetaile(`${API_LINK}/${search_term.value}/repos`);
     }, 1000);
@@ -22,7 +35,10 @@ search_btn.addEventListener("click", (e) => {
   }
 });
 
+// Function to show user details on the page
 function showUserDetails(data) {
+  // Code for displaying user details
+  
   var box = document.querySelector(".box-body");
   var j = ``;
   repo.forEach((r) => {
@@ -87,7 +103,7 @@ function showUserDetails(data) {
     `;
   repoUl.innerHTML = j;
 }
-
+// Asynchronously fetch user details from the provided API
 async function getUserDetaile(api) {
   let query = await fetch(api)
     .then(async (query) => {
@@ -107,6 +123,7 @@ async function getUserDetaile(api) {
     });
 }
 
+// Asynchronously fetch repository details from the provided API
 async function getRepoDetaile(repi_api) {
   let repo_query = await fetch(repi_api)
     .then(async (repo_query) => {
